@@ -1,0 +1,257 @@
+# -*- coding: utf-8 -*-
+
+import CYBERTK
+from CYBERTK.lib.curve.ttypes import *
+from datetime import datetime
+import time,random,sys,json,codecs,threading,glob,re,base64,requests,urllib
+
+cl = CYBERTK.LINE()
+cl.login(token="EpTxPp1iMwBy3FmUSuX4.WINTHljJcS51xBxXoaDyTa.fcV/LzeklEl6/0FM7fvz5xlUUXUzb0mxqXmxcwEGvzk=")
+cl.loginResult()
+
+ki = kk = kc = cl 
+
+print """
+✄▒█▀▀█ ▒█░░▒█ ▒█▀▀█ ▒█▀▀▀ ▒█▀▀█ ▀▀█▀▀ ▒█░▄▀
+✄▒█░░░ ▒█▄▄▄█ ▒█▀▀▄ ▒█▀▀▀ ▒█▄▄▀ ░▒█░░ ▒█▀▄░
+✄▒█▄▄█ ░░▒█░░ ▒█▄▄█ ▒█▄▄▄ ▒█░▒█ ░▒█░░ ▒█░▒█
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░▒▒▒▒░░░▒▒▒▒░░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒▒░▒▒▒▒▒▒░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▒░░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒▒▒▒▒░░░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒░░░░░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░▒░░░░░░░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒░▒▒▒░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒▒▒▒▒░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒▒▒░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒▒▒░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒░░░░░▓▓
+▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▒░░░░░░▓▓
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+_______▒__________▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+______▒_______________▒▒▒▒▒▒▒▒
+_____▒________________▒▒▒▒▒▒▒▒
+____▒___________▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+___▒
+__▒______▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+_▒______▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓
+▒▒▒▒___▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓
+▒▒▒▒__▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓▒▓
+▒▒▒__▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+\n
+Login Cancel =====[̴̘̤̫̼̗̯͎̲̈́͑͑̅̂͊͐̾͆ͥͮ͟͠C̼̟̭͓͚̮̝͙̲̞͇̻̦̟͔̫ͯ̿̅̈́ͬ͊̓ͦ͌̌͗̆ͮ͂̍̚]̣̅[҉̷͚͓̼͉̮̲̟̝̬̱̱͖̅ͩ̎̀̈́̋ͣ̂̋ͩͮ̉Ý̢̲͇͚̦̻̰̻ͫ̍ͮ̅]̨̃ͯͨ̂̋ͪ̅[̪̲̘̲ͣͯ̑̅̑̎B̧̡̘͇͚̹̖̣͎̼̖̫̲̦̪̹̺̠̰̓ͬ̿̅ͯ̓̾́̍͋ͤ̒͋̆̈́̽̅][̧̤̘̮̪̮̟̠̻̲̘̻̥̲̬̑̍͑̐̈̓̿̅̐͑̿ͬͮͫE̪̙͖̫̲̣̥͔̊͒̏͊̅ͦͯ̋]̠̖̭̳͇̑́̉̆͛[͇̩̘̖͕̝̖̱̲̌ͧ̉ͬ̅̃̀ͦ̎́̅ͫ̉̇ͬ̏͋͝Ŗ̛̱̜̭͔̻̼̦̲̅]͡[͔͓̳̪̟͔̲̤̮͙̅ͬͫ̌̊͑ͧ́ͪṬ̢͍͇̠̩̮̪͇͚̱̫̖̲͆͛ͧ̃̓̑̅̎̓ͦ̈́̊̿̎̋̉̑̍̓̌]͆̈́ͧ͛[̯͉̬͈̱̪̞̺̥̲̲͕̗̆́̀̅̎̊ͬͭͧ͌͌̔ͭ̀͌͞ͅK̨̦̣͉͍͚̳̗̫̘͉̲ͣ͗̄̅̚͞]====
+"""
+reload(sys)
+sys.setdefaultencoding('utf-8')
+KAC=[cl,ki,kk,kc]
+mid = cl.getProfile().mid
+Amid = ki.getProfile().mid
+Bmid = kk.getProfile().mid
+Cmid = kc.getProfile().mid
+
+Bots=[mid,Amid,Bmid,Cmid]
+admin=[""]
+wait = {
+    'contact':True,
+    'autoJoin':True,
+    'autoCancel':{"on":True,"members":1},
+    'leaveRoom':True,
+    'timeline':True,
+    'autoAdd':True,
+    'message':"""【тнanĸѕ ғor add мe】
+╔══╗ 
+║██║ 
+║(O)║♫ ♪ ♫ ♪
+╚══╝
+▄ █ ▄ █ ▄ ▄ █ ▄ █ ▄ █
+Min- - - - - - - - - - - -●Max
+║➪ It's an automatic message.
+Contact information was automatically 
+Sent to you. If you want to go there,
+you can contact with contact information.
+I wish you a good day ⇐║
+.........█􀜁􀄃Suspicious Face􏿿█▄▄▄▄▄▃􀌂􀇂meteorite􏿿
+..▂▄▅█████▅▄▃▂
+[██████████████
+◥⊙▲⊙▲⊙▲⊙▲⊙▲⊙▲⊙▲
+									
+➢ Instagram account ↴
+
+➤  https://instagram.com/_aquariusman ✔		
+
+➢ YouTuBe Channel ↴
+
+➤ https://m.youtube.com/channel/UC9AyYKWovERexyOFy3h4rdw ✔
+""",
+    "lang":"JP",
+    "comment":"Thanks for add me Owner\n{¶ http://line.me/ti/p/~cybertk0 ¶} ",
+    "commentOn":False,
+    "commentBlack":{},
+    "wblack":False,
+    "dblack":False,
+    "clock":False,
+    "blacklist":{},
+    "wblacklist":False,
+    "dblacklist":False,
+    "protectionOn":True,
+    "atjointicket":False
+    }
+
+wait2 = {
+    'readPoint':{},
+    'readMember':{},
+    'setTime':{},
+    'ROM':{}
+    }
+
+setTime = {}
+setTime = wait2['setTime']
+
+
+def sendMessage(to, text, contentMetadata={}, contentType=0):
+    mes = Message()
+    mes.to, mes.from_ = to, profile.mid
+    mes.text = text
+    mes.contentType, mes.contentMetadata = contentType, contentMetadata
+    if to not in messageReq:
+        messageReq[to] = -1
+    messageReq[to] += 1
+
+def NOTIFIED_READ_MESSAGE(op):
+    try:
+        if op.param1 in wait2['readPoint']:
+            Name = cl.getContact(op.param2).displayName
+            if Name in wait2['readMember'][op.param1]:
+                pass
+            else:
+                wait2['readMember'][op.param1] += "\n・" + Name
+                wait2['ROM'][op.param1][op.param2] = "・" + Name
+        else:
+            pass
+    except:
+        pass
+
+#-------------------------------------------------#
+
+def bot(op):
+    try:
+        if op.type == 0:
+            return
+        if op.type == 13:
+            cl.acceptGroupInvitation(op.param1)
+            cl.sendText(op.param1, "Start")
+            cl.sendText(op.param1, "「 Cancel 」\nCancel is STARTING♪\n ' abort' to abort♪")
+        if op.type == 17:
+            kk.cancelGroupInvitation(op.param1,[op.param2])
+            print "Cancel"
+        if op.type == 19:
+            ki.cancelGroupInvitation(op.param1,[op.param2])
+            print "Cancel"
+        if op.type == 32:
+            ki.cancelGroupInvitation(op.param1,[op.param2])
+            print "Cancel"
+        if op.type == 5:
+            if wait["autoAdd"] == True:
+                cl.findAndAddContactsByMid(op.param1)
+                if (wait["message"] in [""," ","\n",None]):
+                    pass
+                else:
+                    cl.sendText(op.param1,str(wait["message"]))
+        if op.type == 13:
+                if op.param3 in mid:
+                    if op.param2 in Amid:
+                        G = ki.getGroup(op.param1)
+                        G.preventJoinByTicket = False
+                        ki.updateGroup(G)
+                        Ticket = ki.reissueGroupTicket(op.param1)
+                        cl.acceptGroupInvitationByTicket(op.param1,Ticket)
+                        G.preventJoinByTicket = True
+                        ki.updateGroup(G)
+                        Ticket = ki.reissueGroupTicket(op.param1)
+
+                if op.param3 in Amid:
+                    if op.param2 in Bmid:
+                        X = kk.getGroup(op.param1)
+                        X.preventJoinByTicket = False
+                        kk.updateGroup(X)
+                        Ti = kk.reissueGroupTicket(op.param1)
+                        ki.acceptGroupInvitationByTicket(op.param1,Ti)
+                        X.preventJoinByTicket = True
+                        kk.updateGroup(X)
+                        Ti = kk.reissueGroupTicket(op.param1)
+
+                if op.param3 in Bmid:
+                    if op.param2 in Cmid:
+                        X = kc.getGroup(op.param1)
+                        X.preventJoinByTicket = False
+                        kc.updateGroup(X)
+                        Ti = kc.reissueGroupTicket(op.param1)
+                        kk.acceptGroupInvitationByTicket(op.param1,Ti)
+                        X.preventJoinByTicket = True
+                        kc.updateGroup(X)
+                        Ti = kc.reissueGroupTicket(op.param1)
+
+                if op.param3 in Cmid:
+                    if op.param2 in mid:
+                        X = cl.getGroup(op.param1)
+                        X.preventJoinByTicket = False
+                        cl.updateGroup(X)
+                        Ti = cl.reissueGroupTicket(op.param1)
+                        kc.acceptGroupInvitationByTicket(op.param1,Ti)
+                        X.preventJoinByTicket = True
+                        cl.updateGroup(X)
+                        Ti = cl.reissueGroupTicket(op.param1)
+
+#----------------------[CyberTK Cancel && Bot And Group Protected && Group destruction]----------------------#
+        if op.type == 25:
+            msg = op.message
+
+#-----------------------------[Cancel]-----------------------------#
+            if "Start" in msg.text:
+                start = time.time()
+                time.sleep(0.02)
+                elapsed_time = time.time() - start
+                cl.sendText(msg.to, "%s<==Cancel speed" % (elapsed_time))
+                cl.sendText(msg.to, "􀜁􀇔􏿿Cancel Processing􀜁􀇔􏿿")
+            if "「 Cancel 」\nCancel is STARTING♪\n ' abort' to abort♪" in msg.text:
+                if msg.toType == 2:
+                    group = cl.getGroup(msg.to)
+                    gMembMids = [contact.mid for contact in group.invitee]
+                    for _mid in gMembMids:
+                        random.choice(KAC).cancelGroupInvitation(msg.to,[_mid])
+                    cl.sendText(msg.to,"I pretended to cancel and canceled")
+                    cl.leaveGroup(msg.to)
+#-----------------------------[Cancel]-----------------------------#
+
+
+        if op.type == 59:
+            print op
+
+
+    except Exception as error:
+        print error
+
+
+def a2():
+    now2 = datetime.now()
+    nowT = datetime.strftime(now2,"%M")
+    if nowT[14:] in ["10","20","30","40","50","00"]:
+        return False
+    else:
+        return True
+
+while True:
+    try:
+        Ops = cl.fetchOps(cl.Poll.rev, 5)
+    except EOFError:
+        raise Exception("It might be wrong revision\n" + str(cl.Poll.rev))
+
+    for Op in Ops:
+        if (Op.type != OpType.END_OF_OPERATION):
+            cl.Poll.rev = max(cl.Poll.rev, Op.revision)
+            bot(Op)
+                      
